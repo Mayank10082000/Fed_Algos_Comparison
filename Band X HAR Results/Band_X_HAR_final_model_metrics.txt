@@ -1,0 +1,34 @@
+=== Model Performance Comparison ===
+
+
+Centralized Model Metrics:
+------------------------------
+Accuracy:  0.7112
+Precision: 0.7070
+Recall:    0.7112
+F1 Score:  0.7076
+
+
+FedAvg Model Metrics:
+------------------------------
+Accuracy:  0.7055
+Precision: 0.7028
+Recall:    0.7055
+F1 Score:  0.7014
+
+
+FedProx Model Metrics:
+------------------------------
+Accuracy:  0.7015
+Precision: 0.7007
+Recall:    0.7015
+F1 Score:  0.6976
+
+
+FedMA Model Metrics:
+------------------------------
+Accuracy:  0.7039
+Precision: 0.7043
+Recall:    0.7039
+F1 Score:  0.7014
+
