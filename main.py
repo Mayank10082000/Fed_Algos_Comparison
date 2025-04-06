@@ -12,11 +12,32 @@ from fedprox import train_fedprox_model
 from fedma import train_fedma_model  # Add this import
 from metrics import calculate_metrics, plot_metrics, plot_confusion_matrix, save_simple_metrics
 
+def save_model(model, model_name):
+    """
+    Save a trained model to disk.
+    
+    Args:
+        model: The trained model to save
+        model_name: Name identifier for the saved model
+    """
+    try:
+        # Create models directory if it doesn't exist
+        if not os.path.exists('saved_models'):
+            os.makedirs('saved_models')
+            
+        # Save the model
+        model_path = os.path.join('saved_models', f'{model_name}.h5')
+        model.save(model_path)
+        print(f"Model saved successfully at: {model_path}")
+        
+    except Exception as e:
+        print(f"Error saving model {model_name}: {str(e)}")
+
 def main():
     try:
         # Load and preprocess data
         print("Loading and preprocessing data...")
-        file_path = '/kaggle/input/wisdm-har-raw-csv/wisdm_HAR_raw.csv'  # Update this path to your data file
+        file_path = '/kaggle/input/uci-har-raw-csv/uci_HAR_raw.csv'  # Update this path to your data file
         X_scaled, y = load_and_preprocess_data(file_path)
         
         # Get number of classes from the data
@@ -43,6 +64,9 @@ def main():
             batch_size=64
         )
         
+        # Save the centralized model
+        save_model(centralized_model, "centralized_model")
+
         # Get predictions and calculate metrics for centralized model
         print("\nCalculating centralized model metrics...")
         centralized_pred = centralized_model.predict(X_test, verbose=0)
@@ -74,6 +98,9 @@ def main():
             local_epochs=5
         )
         
+        # Save the FedAvg model
+        save_model(fl_model.global_model, "fedavg_model")
+
         # Generate federated model visualizations
         plot_metrics(federated_history, mode='federated')
         
@@ -106,6 +133,10 @@ def main():
             local_epochs=5,
             mu=0.01
         )
+
+        # Save the FedProx model
+        save_model(fedprox_model.global_model, "fedprox_model")
+
         
         # Generate FedProx visualizations
         plot_metrics(fedprox_history, mode='fedprox')
@@ -142,6 +173,9 @@ def main():
             gamma=1.0
         )
         
+        # Save the FedMA model
+        save_model(fedma_model.global_model, "fedma_model")
+
         # Generate FedMA visualizations
         plot_metrics(fedma_history, mode='fedma')
         
