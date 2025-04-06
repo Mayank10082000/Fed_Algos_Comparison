@@ -11,27 +11,7 @@ from fedavg import train_federated_model
 from fedprox import train_fedprox_model
 from fedma import train_fedma_model  # Add this import
 from metrics import calculate_metrics, plot_metrics, plot_confusion_matrix, save_simple_metrics
-
-def save_model(model, model_name):
-    """
-    Save a trained model to disk.
-    
-    Args:
-        model: The trained model to save
-        model_name: Name identifier for the saved model
-    """
-    try:
-        # Create models directory if it doesn't exist
-        if not os.path.exists('saved_models'):
-            os.makedirs('saved_models')
-            
-        # Save the model
-        model_path = os.path.join('saved_models', f'{model_name}.h5')
-        model.save(model_path)
-        print(f"Model saved successfully at: {model_path}")
-        
-    except Exception as e:
-        print(f"Error saving model {model_name}: {str(e)}")
+from model_saving_and_loading import save_model
 
 def main():
     try:
